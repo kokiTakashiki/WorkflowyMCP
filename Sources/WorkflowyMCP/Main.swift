@@ -12,9 +12,19 @@ struct WorkflowyMCP {
     /// `CancellationError`, which is caught by the enclosing `do/catch`.
     private static let keepAliveInterval: Duration = .seconds(1)
 
+    /// Writes `message` followed by a newline to standard error.
+    ///
+    /// Goes through `FileHandle.standardError` instead of `fputs(..., stderr)`
+    /// because the C global `stderr` is `var`-typed shared mutable state and
+    /// cannot be referenced under Swift 6 strict concurrency.
+    private static func writeStderr(_ message: String) {
+        guard let data = (message + "\n").data(using: .utf8) else { return }
+        FileHandle.standardError.write(data)
+    }
+
     static func main() async {
         guard let apiKey = WorkflowyAPIKeyStore.load() else {
-            fputs("エラー: \(WorkflowyError.missingAPIKey.localizedDescription)\n", stderr)
+            writeStderr("エラー: \(WorkflowyError.missingAPIKey.localizedDescription)")
             exit(1)
         }
 
@@ -44,7 +54,7 @@ struct WorkflowyMCP {
             // task. This is the documented shutdown path, not a failure.
             return
         } catch {
-            fputs("エラー: サーバーの起動に失敗しました: \(error)\n", stderr)
+            writeStderr("エラー: サーバーの起動に失敗しました: \(error)")
             exit(1)
         }
     }
