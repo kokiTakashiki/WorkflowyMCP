@@ -5,7 +5,7 @@ A [Model Context Protocol](https://modelcontextprotocol.io) server for the [Work
 ## Prerequisites
 
 - macOS 13+
-- Swift 6.0+
+- Swift 6.3+
 - [Homebrew](https://brew.sh)
 - [1Password CLI](https://developer.1password.com/docs/cli/) with desktop app integration enabled
 - Workflowy API key stored in 1Password
@@ -31,7 +31,7 @@ make build
 # Binary: .build/release/WorkflowyMCP
 ```
 
-CI builds on every push and pull request to `main` using the official `swift:6.2-jammy` container on Ubuntu. The source compiles on Linux (API key loading from macOS Keychain is a no-op there), but the server is only supported for runtime use on macOS.
+CI builds on every push and pull request to `main` using the official `swift:6.3-jammy` container on Ubuntu. The source compiles on Linux (API key loading from macOS Keychain is a no-op there), but the server is only supported for runtime use on macOS.
 
 ## Claude Desktop Integration
 
