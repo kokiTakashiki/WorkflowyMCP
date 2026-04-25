@@ -1,0 +1,16 @@
+name: WorkflowyMCP Project
+options:
+  - name: OP_ITEM_PATH
+    question: "1PasswordのアイテムパスをWorkflowy APIキーに入力してください（例: op://Personal/Workflowy API key/credential）"
+    type: string
+    required: true
+  - name: INSTALL_DIR
+    question: "MCPバイナリのインストール先ディレクトリ（絶対パス、例: /usr/local/bin）"
+    type: string
+    value: "/usr/local/bin"
+
+files:
+  - template: config.mk.stencil
+    path: config.mk
+  - template: claude-desktop-config.json.stencil
+    path: claude-desktop-config.json

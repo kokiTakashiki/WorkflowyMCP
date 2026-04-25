@@ -1,0 +1,12 @@
+.build/
+.swiftpm/
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+.DS_Store
+config.mk
+claude-desktop-config.json
+.vscode/launch.json
+.claude/settings.json
+.vscode/settings.json

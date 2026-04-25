@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "workflowy": {
+      "command": "{{ INSTALL_DIR }}/WorkflowyMCP"
+    }
+  }
+}
