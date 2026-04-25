@@ -42,6 +42,15 @@ setup:
 	else \
 		echo "Peripheryは既にインストール済み"; \
 	fi
+	@if ! which swiftly > /dev/null 2>&1; then \
+		echo "swiftlyをインストール中..."; \
+		brew install swiftly; \
+		swiftly init --quiet-shell-followup --assume-yes; \
+	else \
+		echo "swiftlyは既にインストール済み"; \
+	fi
+	@echo "最新のSwiftツールチェーンをインストール中..."
+	@swiftly install --use latest
 	@if [ ! -f config.mk ]; then \
 		$(MAKE) generate; \
 	else \
@@ -51,8 +60,9 @@ setup:
 	@echo "セットアップが完了しました！"
 	@echo ""
 	@echo "次のステップ:"
-	@echo "  1. 'make build' でバイナリをビルドする"
-	@echo "  2. claude-desktop-config.json の内容をClaude Desktopの設定に追加する"
+	@echo "  1. シェルを開き直す（または 'source ~/.swiftly/env.sh' を実行）してswiftlyのPATHを反映する"
+	@echo "  2. 'make build' でバイナリをビルドする"
+	@echo "  3. claude-desktop-config.json の内容をClaude Desktopの設定に追加する"
 
 _setup-credentials:
 	@[ -n "$(OP_ITEM_PATH)" ] || (echo "OP_ITEM_PATHが未設定です。'make generate' を先に実行してください。" && exit 1)
@@ -68,8 +78,9 @@ _setup-credentials:
 		echo "Keychainにサービス '$(KEYCHAIN_SERVICE)' として保存しました。"
 
 # リリースビルド（実行ファイルは .build/release/WorkflowyMCP）
+# swiftlyを使用している場合は env.sh を読み込んで PATH を通す
 build:
-	swift build -c release
+	@. $$HOME/.swiftly/env.sh 2>/dev/null; swift build -c release
 
 # GenesisでローカルのMakefile設定とClaude Desktop設定ファイルを生成
 generate:
@@ -119,6 +130,14 @@ upgrade:
 		brew upgrade periphery || true; \
 	else \
 		echo "Peripheryがインストールされていません。'make setup' を実行してください。"; \
+	fi
+	@if which swiftly > /dev/null 2>&1; then \
+		echo "swiftly本体をアップグレード中..."; \
+		brew upgrade swiftly || true; \
+		echo "Swiftツールチェーンを最新に更新中..."; \
+		swiftly install --use latest; \
+	else \
+		echo "swiftlyがインストールされていません。'make setup' を実行してください。"; \
 	fi
 	@echo "アップグレードが完了しました！"
 
