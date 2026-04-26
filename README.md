@@ -1,5 +1,7 @@
 # WorkflowyMCP
 
+[![Build](https://github.com/kokiTakashiki/WorkflowyMCP/actions/workflows/build.yml/badge.svg)](https://github.com/kokiTakashiki/WorkflowyMCP/actions/workflows/build.yml)
+
 A [Model Context Protocol](https://modelcontextprotocol.io) server for the [Workflowy API](https://workflowy.com/api-reference/), written in Swift.
 
 ## Prerequisites
